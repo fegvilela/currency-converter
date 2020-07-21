@@ -1,46 +1,42 @@
 import React from 'react';
-import { View, SafeAreaView, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { SafeAreaView } from 'react-native';
+import { Entypo } from '@expo/vector-icons';
 
 import colors from '../constants/colors';
+import { RowItem, RowSeparator } from '../components/RowItem';
 
-const styles = StyleSheet.create({
-  row: {
-    backgroundColor: colors.white,
-    paddingHorizontal: 20,
-    paddingVertical: 16,
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    flexDirection: 'row',
-  },
-  title: {
-    color: colors.text,
-    fontSize: 16,
-  },
-  separator: {
-    backgroundColor: colors.border,
-    height: StyleSheet.hairlineWidth,
-    marginLeft: 20,
-  },
-});
 
 export default () => {
   return (
     <SafeAreaView>
-      <TouchableOpacity style={styles.row} onPress={() => alert('todo')}>
-        <Text style={styles.title}> Fellowship </Text>
-      </TouchableOpacity>
-    
-      <View style={styles.separator} />
+      <RowItem
+        title="Fellowship"
+        rightIcon={
+          <Entypo name="chevron-right" size={20} color={colors.blue} />
+        }
+        onPress={() => alert("todo")}
+      />
 
-      <TouchableOpacity style={styles.row} onPress={() => alert('todo')}>
-        <Text style={styles.title}> of </Text>
-      </TouchableOpacity>
-      
-      <View style={styles.separator} />
-      
-      <TouchableOpacity style={styles.row} onPress={() => alert('todo')}>
-        <Text style={styles.title}> the Ring </Text>
-      </TouchableOpacity>
+      <RowSeparator />
+      <RowItem
+        title="of the"
+        rightIcon={
+          <Entypo name="export" size={20} color={colors.blue} />
+        }
+        onPress={() => alert("todo")}
+      />
+
+      <RowSeparator />
+      <RowItem
+        title="Ring"
+        rightIcon={
+          <Entypo name="export" size={20} color={colors.blue} />
+        }
+        onPress={() => alert("todo")}
+      />
+
+      <RowSeparator />
+
     </SafeAreaView>
-  )
+  );
 }
