@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, TextInput,  TouchableOpacity, View, StyleSheet} from 'react-native';
 
-import colors from '../constants/colors.js';
+import colors from '../constants/colors';
 
 const styles = StyleSheet.create({
   container: {
@@ -10,6 +10,9 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     marginVertical: 10,
     flexDirection: 'row',
+  },
+  disabledContainer: {
+    backgroundColor: colors.offWhite,
   },
   button: {
     padding: 15,
@@ -33,8 +36,14 @@ const styles = StyleSheet.create({
 });
 
 export const ConversionInput = ({text, onButtonPress, ...props}) => {
+  const containerStyles = [styles.container];
+
+  if(props.editable === false){
+    containerStyles.push(styles.disabledContainer);
+  }
+
   return(
-    <View style={styles.container}>
+    <View style={containerStyles}>
       <TouchableOpacity style={styles.button} onPress={onButtonPress}>
         <Text style={styles.buttonText}>{text}</Text>
       </TouchableOpacity>
