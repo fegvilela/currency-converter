@@ -6,9 +6,12 @@ import {
   Image, 
   Dimensions,
   Text,
-  ScrollView
+  ScrollView,
+  TouchableOpacity
 } from 'react-native';
-  import { format } from 'date-fns';
+import { format } from 'date-fns';
+import { Entypo } from '@expo/vector-icons';
+import { SafeAreaView } from "react-native-safe-area-context";
 
 import colors from '../constants/colors';
 import { ConversionInput } from '../components/ConversionInput';
@@ -23,7 +26,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   content: {
-    paddingTop: screen.height * .25,
+    paddingTop: screen.height * .12,
   },
   logoContainer: {
     alignItems: "center",
@@ -49,10 +52,14 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 14,
     color: colors.white,
+  },
+  header: {
+    alignItems: "flex-end",
+    marginHorizontal: 20,
   }
 });
 
-export default () => {
+export default ({ navigation }) => {
   const baseCurrency = "USD" ;
   const quoteCurrency = "GBP";
   const conversionRate = 0.8359;
@@ -62,8 +69,13 @@ export default () => {
 
   return (
     <View style={styles.container}>
+      <StatusBar barStyle="light-content" backgroundColor={colors.blue} />
       <ScrollView scrollEnabled={scrollEnabled}>
-        <StatusBar barStyle="light-content" backgroundColor={colors.blue} />
+        <SafeAreaView style={styles.header}>
+          <TouchableOpacity onPress={() => navigation.push('Options')}>
+            <Entypo name="cog" size={32} color={colors.white} />
+          </TouchableOpacity>
+        </SafeAreaView>
 
         <View style={styles.content}>
           <View style={styles.logoContainer}>
@@ -105,7 +117,7 @@ export default () => {
           </Text>
 
           <Button text="Reverse Currencies" onPress={() => alert("hey")} />
-          <KeyboardSpacer onToggle={visible => setScrollEnabled(visible)} />
+          <KeyboardSpacer onToggle={(visible) => setScrollEnabled(visible)} />
         </View>
       </ScrollView>
     </View>
