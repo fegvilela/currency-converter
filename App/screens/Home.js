@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useState, useEffect } from "react";
 import { 
   View, 
   StatusBar, 
   StyleSheet, 
   Image, 
   Dimensions,
-  Text } from 'react-native';
+  Text,
+  ScrollView,
+  Keyboard
+} from 'react-native';
   import { format } from 'date-fns';
 
 import colors from '../constants/colors';
@@ -18,7 +21,9 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.blue,
     flex: 1,
-    justifyContent: "center",
+  },
+  content: {
+    paddingTop: screen.height * .25,
   },
   logoContainer: {
     alignItems: "center",
@@ -51,53 +56,72 @@ export default () => {
   const baseCurrency = "USD" ;
   const quoteCurrency = "GBP";
   const conversionRate = 0.8359;
-  const date = '2020-07-01';
+  const date = '2020-01-07';
+
+  const [scrollEnabled, setScrollEnabled] = useState(false);
+
+  useEffect(() => {
+    const showListener = Keyboard.addListener('keyboardDidShow', () => 
+      setScrollEnabled(true));
+
+    const hideListener = Keyboard.addListener('keyboardDidHide', () =>
+      setScrollEnabled(false));
+
+    return () => {
+      showListener.remove();
+      hideListener.remove();
+
+    }
+  });
 
   return (
     <View style={styles.container}>
-      <StatusBar barStyle="light-content" backgroundColor={colors.blue} />
+      <ScrollView scrollEnabled={scrollEnabled}>
+        <StatusBar barStyle="light-content" backgroundColor={colors.blue} />
 
-      <View style={styles.logoContainer}>
-        <Image
-          source={require("../assets/images/background.png")}
-          style={styles.logoBackground}
-          resizeMode="contain"
-        />
-        <Image
-          source={require("../assets/images/logo.png")}
-          style={styles.logo}
-          resizeMode="contain"
-        />
-      </View>
+        <View style={styles.content}>
+          <View style={styles.logoContainer}>
+            <Image
+              source={require("../assets/images/background.png")}
+              style={styles.logoBackground}
+              resizeMode="contain"
+            />
+            <Image
+              source={require("../assets/images/logo.png")}
+              style={styles.logo}
+              resizeMode="contain"
+            />
+          </View>
 
-      <Text style={styles.textHeader}> Currency Converter</Text>
+          <Text style={styles.textHeader}> Currency Converter</Text>
 
-      <ConversionInput
-        text="USD"
-        value="123"
-        onButtonPress={() => alert("todo!")}
-        keyboardType="numeric"
-        onChangeText={(text) => console.log("text", text)}
-      />
-      <ConversionInput
-        text="GBP"
-        value="123"
-        onButtonPress={() => alert("todo!")}
-        keyboardType="numeric"
-        onChangeText={(text) => console.log("text", text)}
-        editable={false}
-      />
+          <ConversionInput
+            text="USD"
+            value="123"
+            onButtonPress={() => alert("todo!")}
+            keyboardType="numeric"
+            onChangeText={(text) => console.log("text", text)}
+          />
+          <ConversionInput
+            text="GBP"
+            value="123"
+            onButtonPress={() => alert("todo!")}
+            keyboardType="numeric"
+            onChangeText={(text) => console.log("text", text)}
+            editable={false}
+          />
 
-      <Text style={styles.text}> 
-        {`1 ${baseCurrency} = ${conversionRate} ${quoteCurrency} as of ${format(
-          new Date(date), 
-          'MMMM do, yyyy')}`} 
-      </Text>
+          <Text style={styles.text}>
+            {`1 ${baseCurrency} = ${conversionRate} ${quoteCurrency} as of ${format(
+              new Date(date),
+              "MMMM do, yyyy"
+            )}`}
+          </Text>
 
-      <Button 
-        text="Hello"
-        onPress={() => alert('hey')}
-      />
+          <Button text="Reverse Currency" onPress={() => alert("hey")} />
+          <View style={{ height: screen.height * 0.5 }} />
+        </View>
+      </ScrollView>
     </View>
   );
 }
